@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.RegisterFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/reg_std_padding"
+        android:paddingRight="@dimen/reg_std_padding">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reg_std_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_f_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="first name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reg_std_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="surname" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reg_std_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_email_r"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="email"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reg_std_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_p_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="phone number"
+                android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reg_std_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_password_r"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="password"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reg_std_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_re_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="re-enter password"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/bn_reg_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reg_std_padding"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="done"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+</FrameLayout>
