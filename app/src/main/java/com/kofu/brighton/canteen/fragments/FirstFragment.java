@@ -2,16 +2,22 @@ package com.kofu.brighton.canteen.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kofu.brighton.canteen.MainActivityCallBacks;
 import com.kofu.brighton.canteen.R;
 import com.kofu.brighton.canteen.adapter.MealRecyclerAdapter;
 import com.kofu.brighton.canteen.models.Meal;
@@ -27,6 +33,12 @@ import retrofit2.Response;
 public class FirstFragment extends Fragment {
 
     private APIService mApiService;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(
@@ -69,5 +81,32 @@ public class FirstFragment extends Fragment {
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.canteen_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_logout) {
+            logout();
+        }
+//        else {
+//            logout();
+//        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        MainActivityCallBacks activity = (MainActivityCallBacks) getActivity();
+        activity.setToken(null);
+        Navigation
+                .findNavController(getActivity().findViewById(R.id.nav_host_fragment))
+                .navigate(FirstFragmentDirections
+                        .actionFirstFragmentToLoginFragment());
     }
 }

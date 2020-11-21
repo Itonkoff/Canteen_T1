@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,16 @@ public class SecondFragment extends Fragment {
     private CodeScanner mCodeScanner;
     private String mStudentRef;
     private APIService mApiService;
+    private int mMeal;
+    private CodeScannerView mCodeScannerView;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.setHasOptionsMenu(true);
+
+        mMeal = SecondFragmentArgs.fromBundle(getArguments()).getMeal();
+    }
 
     @Override
     public View onCreateView(
@@ -50,6 +61,7 @@ public class SecondFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mApiService = APIServiceBuilder.buildService(APIService.class);
+        mCodeScannerView = view.findViewById(R.id.scanner_v);
 
         mView = view;
 
@@ -69,8 +81,7 @@ public class SecondFragment extends Fragment {
     }
 
     private void setUpCodeScanner() {
-        CodeScannerView codeScannerView = mView.findViewById(R.id.scanner_v);
-        mCodeScanner = new CodeScanner(getActivity(), codeScannerView);
+        mCodeScanner = new CodeScanner(getActivity(), mCodeScannerView);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
@@ -84,8 +95,9 @@ public class SecondFragment extends Fragment {
                         lendButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                MealBill mealBill = new MealBill(mStudentRef, mMeal);
                                 Call mealbillCall =
-                                        mApiService.mealbill(new MealBill(mStudentRef, 0.0));
+                                        mApiService.mealbill(mealBill);
 
                                 mealbillCall.enqueue(new Callback() {
                                     @Override
@@ -95,7 +107,13 @@ public class SecondFragment extends Fragment {
                                             Navigation
                                                     .findNavController(getActivity().findViewById(R.id.nav_host_fragment))
                                                     .navigate(SecondFragmentDirections.actionSecondFragmentToFirstFragment());
-                                        }else {
+                                        } else if (response.code() == 400) {
+                                            Toast
+                                                    .makeText(getActivity(),
+                                                            "Insufficient funds",
+                                                            Toast.LENGTH_LONG)
+                                                    .show();
+                                        } else {
                                             Toast
                                                     .makeText(getActivity(),
                                                             "Something went wrong in billing the student",
@@ -121,7 +139,7 @@ public class SecondFragment extends Fragment {
             }
         });
 
-        codeScannerView.setOnClickListener(new View.OnClickListener() {
+        mCodeScannerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mCodeScanner.startPreview();
@@ -130,19 +148,23 @@ public class SecondFragment extends Fragment {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         verifyPermissions();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        mCodeScanner.startPreview();
+        if (mCodeScanner != null)
+            mCodeScanner.startPreview();
     }
 
     @Override
     public void onPause() {
-        mCodeScanner.releaseResources();
+        if (mCodeScanner != null)
+            mCodeScanner.releaseResources();
         mView = null;
         super.onPause();
     }

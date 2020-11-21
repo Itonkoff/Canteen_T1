@@ -10,6 +10,7 @@ import com.kofu.brighton.canteen.fragments.FirstFragmentDirections;
 import com.kofu.brighton.canteen.fragments.LoginFragmentDirections;
 import com.kofu.brighton.canteen.models.Meal;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.Navigation;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallB
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -66,6 +67,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallB
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
